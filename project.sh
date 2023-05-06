@@ -39,6 +39,7 @@ p() {
   # raw command for building:
   # javac src/Lox.java -d output/
 
+  mode_flags=""
   compiler="javac"
   src="src/*.java"
   output="-d $build_dir/$mode"
@@ -55,12 +56,18 @@ p() {
       ctags --languages=java -R src/*
 
       echo ">>> Building $app - $mode"
-      $compiler $src $output
+      if [ "$mode" == "debug" ]; then
+        mode_flags="-g"
+      fi
+
+      $compiler $mode_flags $src $output
       ;;
     "debug")
       if [ "$mode" == "debug" ]; then
         echo ">>> Debugging $app"
-        jdb $build_dir/$mode/$app
+        cd $build_dir/$mode
+        jdb $app
+        cd ../../../..
       else
         echo "you're not in debug mode!"
       fi

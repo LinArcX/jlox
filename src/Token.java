@@ -13,9 +13,9 @@ enum TokenType {
   IDENTIFIER, STRING, NUMBER,
 
   // Keywords.
-  AND, CLASS, ELSE, FALSE, FUN, FOR, IF, NIL, OR,
-  PRINT, RETURN, SUPER, THIS, TRUE, VAR, WHILE,
-  EOF
+  VAR, AND, OR, IF, ELSE, FOR, WHILE, CLASS, FUN,
+  PRINT, RETURN, SUPER, THIS,
+  TRUE, FALSE, NIL, EOF
 }
 
 class Token {
@@ -32,6 +32,6 @@ class Token {
   }
 
   public String toString() {
-    return type + " " + lexeme + " " + literal;
+    return type + " " + lexeme + " " + literal + " " + line;
   }
 }
