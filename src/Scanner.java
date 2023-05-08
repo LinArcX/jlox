@@ -10,6 +10,28 @@ class Scanner {
   private int current = 0;
   private int line = 1;
 
+  private static final Map<String, TokenType> keywords;
+
+  static {
+    keywords = new HashMap<>();
+    keywords.put("var", TokenType.VAR);
+    keywords.put("and", TokenType.AND);
+    keywords.put("or", TokenType.OR);
+    keywords.put("if", TokenType.IF);
+    keywords.put("else", TokenType.ELSE);
+    keywords.put("for", TokenType.FOR);
+    keywords.put("while", TokenType.WHILE);
+    keywords.put("class", TokenType.CLASS);
+    keywords.put("fun", TokenType.FUN);
+    keywords.put("print", TokenType.PRINT);
+    keywords.put("return", TokenType.RETURN);
+    keywords.put("super", TokenType.SUPER);
+    keywords.put("this", TokenType.THIS);
+    keywords.put("true", TokenType.TRUE);
+    keywords.put("false", TokenType.FALSE);
+    keywords.put("nil", TokenType.NIL);
+  }
+
   Scanner(String source) {
     this.source = source;
   }
@@ -82,7 +104,16 @@ class Scanner {
     {
       advance();
     }
-    addToken(IDENTIFIER);
+
+
+    String text = source.substring(start, current);
+    TokenType type = keywords.get(text);
+    if (type == null)
+    {
+      type = TokenType.IDENTIFIER;
+    }
+
+    addToken(type);
   }
 
   private void number()
