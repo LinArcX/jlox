@@ -55,6 +55,12 @@ p() {
       echo ">>> generating tags"
       ctags --languages=java -R src/*
 
+      echo ">>> Generating AST classes"
+      cd tools/
+      javac -g GenerateAst.java
+      java GenerateAst ../src
+      cd ..
+
       echo ">>> Building $app - $mode"
       if [ "$mode" == "debug" ]; then
         mode_flags="-g"
