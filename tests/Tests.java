@@ -9,4 +9,12 @@ public class Tests
     String str = "Junit is working fine";
     assertEquals("Junit is working fine",str);
   }
+
+  @Test
+  public void testSaeed()
+  {
+    String str = "Junit is working fine";
+    assertEquals("Junit is working fine",str);
+  }
+
 }

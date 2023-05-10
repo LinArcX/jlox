@@ -59,7 +59,7 @@ p() {
   fi
 
   if [ "$mode" == "test" ]; then
-    src="test/*.java"
+    src="tests/*.java"
     app="LoxTest"
   fi
 
@@ -72,7 +72,7 @@ p() {
       mkdir -p "$build_dir/$mode"
 
       echo ">>> generating tags"
-      ctags --languages=java -R src/*
+      ctags --languages=java -R src/* tools/* tests/*
 
       echo ">>> Generating AST classes"
       cd tools/
@@ -103,7 +103,7 @@ p() {
       echo ">>> Cleaning '$build_dir/$mode' directory"
       rm -r "$build_dir/$mode" ;;
     "generate tags")
-      ctags --languages=java -R src/*;;
+      ctags --languages=java -R src/* tools/* tests/*;;
     *) ;;
   esac
 }
