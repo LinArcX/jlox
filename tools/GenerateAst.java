@@ -1,22 +1,3 @@
-/* production rules
-  // Non-Ambiguity
-  expression → equality ;
-  equality   → comparison ( ( "!=" | "==" ) comparison )* ;
-  comparison → term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
-  term       → factor ( ( "-" | "+" ) factor )* ;
-  factor     → unary ( ( "/" | "*" ) unary )* ;
-  unary      → ( "!" | "-" ) unary | primary ;
-  primary    → NUMBER | STRING | "true" | "false" | "nil" | "(" expression ")" ;
-
-  // Ambigiuity
-  expression  → literal | unary | binary | grouping ;
-  literal     → NUMBER | STRING | "true" | "false" | "nil" ;
-  grouping    → "(" expression ")" ;
-  unary       → ( "-" | "!" ) expression ;
-  binary      → expression operator expression ;
-  operator    → "==" | "!=" | "<" | "<=" | ">" | ">=" | "+"  | "-"  | "*" | "/" ;
- */
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;

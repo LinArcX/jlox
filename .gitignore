@@ -1,5 +1,7 @@
 tags
 output
 garbage
+src/*.class
+test/*.class
 tools/Expr.java
 tools/GenerateAst.class

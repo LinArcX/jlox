@@ -31,18 +31,37 @@
 #     v - info locals
 #     w - where
 
-app="Lox"
-mode="debug"
-build_dir="build/output/linux"
-
 p() {
   # raw command for building:
   # javac src/Lox.java -d output/
 
+  # Lox, LoxTest
+  app=""
+  # debug, release test
+  mode="test"
+
+  build_dir="build/output/linux"
+
+  src=""
   mode_flags=""
   compiler="javac"
-  src="src/*.java"
   output="-d $build_dir/$mode"
+
+  if [ "$mode" == "debug" ]; then
+    src="src/*.java"
+    mode_flags="-g"
+    app="Lox"
+  fi
+
+  if [ "$mode" == "release" ]; then
+    src="src/*.java"
+    app="Lox"
+  fi
+
+  if [ "$mode" == "test" ]; then
+    src="test/*.java"
+    app="LoxTest"
+  fi
 
   commands=("build" "debug" "run" "clean" "generate tags")
   selected=$(printf '%s\n' "${commands[@]}" | fzf --header="project:")
@@ -62,10 +81,6 @@ p() {
       cd ..
 
       echo ">>> Building $app - $mode"
-      if [ "$mode" == "debug" ]; then
-        mode_flags="-g"
-      fi
-
       $compiler $mode_flags $src $output
       ;;
     "debug")
