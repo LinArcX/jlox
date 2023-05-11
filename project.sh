@@ -35,10 +35,10 @@ p() {
   # raw command for building:
   # javac src/Lox.java -d output/
 
-  # Lox, LoxTest
+  # Lox, TestsRunner
   app=""
   # debug, release test
-  mode="test"
+  mode="debug"
 
   build_dir="build/output/linux"
 
@@ -48,22 +48,22 @@ p() {
   output="-d $build_dir/$mode"
 
   if [ "$mode" == "debug" ]; then
-    src="src/*.java"
+    src="lox/src/*.java"
     mode_flags="-g"
     app="Lox"
   fi
 
   if [ "$mode" == "release" ]; then
-    src="src/*.java"
+    src="lox/src/*.java"
     app="Lox"
   fi
 
   if [ "$mode" == "test" ]; then
-    src="tests/*.java"
-    app="LoxTest"
+    src="lox/tests/*.java"
+    app="TestsRunner"
   fi
 
-  commands=("build" "debug" "run" "clean" "generate tags")
+  commands=("build" "debug" "run" "clean")
   selected=$(printf '%s\n' "${commands[@]}" | fzf --header="project:")
 
   case $selected in
@@ -71,14 +71,14 @@ p() {
       echo ">>> Creating '$build_dir/$mode' directory"
       mkdir -p "$build_dir/$mode"
 
-      echo ">>> generating tags"
-      ctags --languages=java -R src/* tools/* tests/*
+      #echo ">>> generating tags"
+      #ctags --languages=java -R lox/src/* lox/tools/* lox/tests/*
 
       echo ">>> Generating AST classes"
-      cd tools/
+      cd lox/tools/
       javac -g GenerateAst.java
       java GenerateAst ../src
-      cd ..
+      cd ../..
 
       echo ">>> Building $app - $mode"
       $compiler $mode_flags $src $output
@@ -87,7 +87,7 @@ p() {
       if [ "$mode" == "debug" ]; then
         echo ">>> Debugging $app"
         cd $build_dir/$mode
-        jdb $app
+        jdb lox.src.$app
         cd ../../../..
       else
         echo "you're not in debug mode!"
@@ -96,14 +96,14 @@ p() {
     "run")
       echo ">>> Running $app - $mode"
       cd $build_dir/$mode
-      java $app
+      java lox.src.$app
       cd ../../../..
       ;;
     "clean")
       echo ">>> Cleaning '$build_dir/$mode' directory"
       rm -r "$build_dir/$mode" ;;
-    "generate tags")
-      ctags --languages=java -R src/* tools/* tests/*;;
+    #"generate tags")
+    #  ctags --languages=java -R lox/src/* lox/tools/* lox/tests/*;;
     *) ;;
   esac
 }
